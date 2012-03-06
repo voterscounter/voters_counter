@@ -21,7 +21,7 @@
   
   .width-boundary {
     width: 80%;
-    max-width: 40em;
+    max-width: 620px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -60,7 +60,35 @@
   .datetime {
     color: #666666;
   }
+
+  .video-iframe {
+    display: inline-block;
+  }
+  
+  .video-controls {
+    display: inline-block;
+    max-width: 8em;
+  }
+  
+  .button {
+    border: 1px solid black;
+    border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+    -khtml-border-radius: 0.5em;
+    background: #8080FF;
+    padding: 0.5em;
+    margin: 0.5em;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background: #A0A0FF;
+  }
 </style>
+<script type="text/javascript" src="/media/js/jquery.js"></script>
+<script type="text/javascript" src="/media/js/swfobject.js"></script>  
 </head>
 <body>
 <div class="width-boundary">

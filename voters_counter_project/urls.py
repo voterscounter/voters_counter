@@ -16,6 +16,8 @@ urlpatterns = patterns('',
     url(r'^$', 'voters_counter_application.views.home', name='home'),
     url(r'^add_video/$', 'voters_counter_application.views.add_video', name='add_video'),
     url(r'^list_videos/$', ListView.as_view(model=Video, template_name='video_list.html'), name='list_videos'),
+    url(r'^edit_video/(?P<video_id>.*)/$', 'voters_counter_application.views.edit_video', name='edit_video'),
+    url(r'^vote/$', 'voters_counter_application.views.vote', name='vote'),
     # url(r'^voters_counter_project/', include('voters_counter_project.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

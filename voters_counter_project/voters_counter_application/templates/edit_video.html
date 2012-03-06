@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block body-block %}
+<div id="add-video-form" class="plate">
+  <div>Видео <a href="{{ video.url }}">{{ video.url }}</a></div>
+  <div class="video">
+<!--    <embed id="embed-video" width="420" height="315" name="plugin" src="{{ video.get_embed_url_with_api }}" type="application/x-shockwave-flash">-->
+    <div id="ytapiplayer">
+      Требуется включить Flash player 8+ и JavaScript для просмотра этого видео.
+    </div>
+<!--    <iframe id="video" width="420" height="315" src="{{ video.get_embed_url_with_api }}" frameborder="0" allowfullscreen></iframe> -->
+  </div>
+  <div class="button" onclick="vote('1');">+1 голос в урну 1</div>
+  <div class="button" onclick="vote('2');">+1 голос в урну 2</div>
+  <div class="button" onclick="violation();">+1 Нарушение</div>
+  <div>
+    {% for vote in votes %}
+    <div>{{ vote }}</div>
+    {% endfor %}
+  </div>
+<div>
+{# TODO Move script block to just before body closing tag #}
+<script type="text/javascript">
+  playerObject = null;
+  
+  function onYouTubePlayerReady(playerId) {
+    playerObject = document.getElementById('myytplayer');
+  }
+
+  var params = { allowScriptAccess: "always" };
+  var atts = { id: "myytplayer" };
+  swfobject.embedSWF("{{ video.get_embed_url_with_api }}&playerapiid=ytplayer",
+                     "ytapiplayer", "420", "315", "8", null, null, params, atts);
+
+  function sendVote(timestamp, type, box) {
+    $.ajax({
+      type: "POST",
+      url: "/vote/",
+      data: "timestamp=" + timestamp + "&vote_type=" + type + "&box=" + box + "&video_id=" + {{ video.pk }}
+    })
+  }
+
+  function vote(box) {
+    if(playerObject) {
+      sendVote(playerObject.getCurrentTime(), 'vote', box);
+    }
+  }
+  
+  function violation() {
+    alert('violation');
+  }
+</script>
+{% endblock %}
