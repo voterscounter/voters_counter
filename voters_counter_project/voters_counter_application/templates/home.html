@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body-block %}
+<div id="request-form" class="plate">
+<div>
+Это сайт создан для облегчения подсчета количества избирателей проголосовавших на выборах 2012 на основании данных с видеокамер.
+</div>
+<div>
+В настоящий момент находится в стадии тестирования. Пожалуйста, присылайте информацию об ошибках и необходимых улучшениях.
+</div>
+<div>
+<ul>
+<li><a href="{% url voters_counter_application.views.add_video %}">Добавить видео</a></li>
+<li><a href="{% url list_videos %}">Список видео</a></li>
+</ul>
+</div>
+<div>
+К участию в доработке сайта приглашаются все желающие: <a href="https://github.com/voterscounter/voters-counter" target="_blank">исходный код</a>
+</div>
+<div>
+voters-counter@yandex.ru
+</div>
+</div>
+{% endblock %}

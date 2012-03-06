@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head profile="http://www.w3.org/2005/10/profile">
+<title>Voters Counter</title>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<meta name="description" content="Twitter Reply Viewer" />
+<!-- TODO:LOW Provide favicon 
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+-->
+<!-- TODO:MEDIUM Provide proper CSS
+<link rel="stylesheet" type="text/css" href="/..." />
+-->
+<!-- TODO:MEDIUM Move embedded CSS to a linked file -->
+<style type="text/css">
+  html {
+    background: #000000;
+    background-image: url("/media/img/body-bgimg1.jpeg"), url("/media/img/body-bgimg2.jpeg");
+    background-repeat: repeat-x, repeat;
+  }
+  
+  .width-boundary {
+    width: 80%;
+    max-width: 40em;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  #add-video-form {
+    padding: 1em;
+    margin: 1em;
+  }
+  
+  .plate {
+    border: 1px solid black;
+    border-radius: 1em;
+    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+    -khtml-border-radius: 1em;
+    background: #546f81;
+    background-image: url("/media/img/form-bgimg1.jpeg"), url("/media/img/form-bgimg2.jpeg");
+    background-repeat: repeat-x, repeat;
+    padding: 1em;
+  }
+
+  #add-video-form label {
+    width: 16em; /* TODO: This is coupled with label text length, refactor to decouple it */
+    display: inline-block;
+    text-align: left;
+  }
+  
+  #add-video-form form {
+    text-align: center;
+  }
+  
+  .video {
+    padding: 1em;
+  }
+  
+  .datetime {
+    color: #666666;
+  }
+</style>
+</head>
+<body>
+<div class="width-boundary">
+{% block body-block %}{% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body-block %}
+<h2>Видео</h2>
+{% for video in object_list %}
+  <div class="video">
+    <iframe width="420" height="315" src="{{ video.get_embed_url }}" frameborder="0" allowfullscreen></iframe>
+  </div>
+{% endfor %}
+{% endblock %}
