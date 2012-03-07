@@ -10,17 +10,34 @@
 ----------------------------------
 Для того, чтобы установить voters-counter на убунту необходимо выполнить 
 следующие действия:
-1. [ОДНОКРАТНО] Получить исходный код из репозитория github:
+1. [ОДНОКРАТНО] Установить Git:
+[sudo] apt-get install git-core
+
+2. [ОДНОКРАТНО] Получить исходный код из репозитория github:
 git clone git://github.com/voterscounter/voters-counter.git
 
-2. [ОПЦИОНАЛЬНО] Получить актуальную версию исходного кода:
+3. [ОПЦИОНАЛЬНО] Получить актуальную версию исходного кода:
+cd voters-counter
 git fetch
 
-3. [ОДНОКРАТНО] Установить Apache HTTP Server:
+4. [ОДНОКРАТНО] Установить Apache HTTP Server:
 [sudo] apt-get install apache2
+
+5. [ОДНОКРАТНО] Установить Django
+[sudo] apt-get install python-django
+
+6. Установить Django-приложение voters_counter:
+mkdir /var/opt/voters_counter
+cp -R voters_counter_project /var/opt/voters_counter
+mkdir /var/opt/voters_counter/wsgi
+cp django.wsgi /var/opt/voters_counter/wsgi
+chown -R www-data /var/opt/voters_counter
 
 4. [ОПЦИОНАЛЬНО] Сделать резервную копию конфигурационного файла Apache HTTP Server:
 cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf.bak
 
-3.
+5. Обновить конфигурацию Apache HTTP Server
+cp apache2.conf /etc/apache2/apache2.conf
+
+
 Редактировать settings.py DEBUG = False
