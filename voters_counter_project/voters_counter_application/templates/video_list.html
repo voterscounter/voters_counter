@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block body-block %}
+<div class="plate">
 <h2>Видео</h2>
 {% for video in object_list %}
   <div class="video">
@@ -10,4 +11,5 @@
     </div>
   </div>
 {% endfor %}
+</div>
 {% endblock %}

@@ -49,6 +49,11 @@
     text-align: left;
   }
   
+  #add-video-form input[type="text"] {
+    width: 16em;
+    display: inline-block;
+  }
+  
   #add-video-form form {
     text-align: center;
   }
@@ -91,8 +96,17 @@
   .button.box2.highlighted {
     background: green;
   }
+
+  .button.box1:active,
+  .button.box2:active {
+    background: green;
+  }
   
   .button.violation.highlighted {
+    background: red;
+  }
+  
+  .button.violation:active {
     background: red;
   }
   
@@ -127,12 +141,29 @@
     background: #FFFFFF;
     background: rgba(255, 255, 255, 0.8)
   }
+  
+  .warning {
+    font-size: 1em;
+    font-weight: bold;
+    color: red;
+    text-align: center;
+    background-color: white;
+  }
+  
+  .notice {
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+  }  
 </style>
 <script type="text/javascript" src="/media/js/jquery.js"></script>
 <script type="text/javascript" src="/media/js/swfobject.js"></script>  
 </head>
 <body>
 <div class="width-boundary">
+<div class="warning">ДАННАЯ ВЕРСИЯ ЯВЛЯЕТСЯ ТЕСТОВОЙ и ПРЕДНАЗНАЧЕНА ДЛЯ ВЫЯВЛЕНИЯ НЕДОСТАТКОВ</div>
+<div class="warning">НЕ ИСПОЛЬЗУТЕ ЭТУ ВЕРСИЮ ДЛЯ РЕАЛЬНОЙ РАБОТЫ, т.к. есть риск потерять результаты кропотливого труда</div>
+<div class="warning">Все вопросы и предложения прошу оставлять <a href="{# TODO Add link to LJ #}">здесь</a></div>
 {% block body-block %}{% endblock %}
 </div>
 </body>

@@ -4,7 +4,7 @@ from django.db import models
 
 class Video(models.Model):
   # TODO Migrate to models.URLField() ?
-  url = models.CharField(max_length=2048) # Reasonable limitation
+  url = models.CharField(max_length=2048, verbose_name=u'Ссылка на видео на YouTube') # Reasonable limitation
   
   def get_embed_url(self):
     video_url_id = self.url.split('/')
