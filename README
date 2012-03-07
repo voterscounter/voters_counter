@@ -37,6 +37,11 @@ mkdir /var/opt/voters_counter/wsgi
 cp django.wsgi /var/opt/voters_counter/wsgi
 chown -R www-data /var/opt/voters_counter
 
+7. Создать каталог для БД:
+mkdir /var/lib/voters-counter
+chown www-data /var/lib/voters-counter
+sudo -u www-data bash -c 'cd /var/opt/voters_counter/voters_counter_project && ./manage.py syncdb'
+
 4. [ОПЦИОНАЛЬНО] Сделать резервную копию конфигурационного файла Apache HTTP Server:
 cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf.bak
 
