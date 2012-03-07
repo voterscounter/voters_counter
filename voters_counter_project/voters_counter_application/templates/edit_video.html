@@ -59,6 +59,20 @@
     }
     return null
   }
+
+  function getVoteInsertionPoint(timestamp) {
+    var prevVote = null;
+    var votes = $('#votes .vote').toArray();
+    {# TODO Here is a room for optimization, since the array is sorted #}
+    for (var i = 0; i < votes.length; i++) {
+      var vote_ = votes[i];
+      if(timestamp < parseInt(vote_.getAttribute('data-start'))) {
+        break;
+      }
+      prevVote = vote_
+    }
+    return prevVote
+  }
   
   function highlightVote() {
     if(playerObject) {
@@ -73,13 +87,27 @@
       }
     } 
   }
-
+  
   function sendVote(timestamp, type, box) {
-    $.ajax({
+    var request = $.ajax({
       type: "POST",
       url: "/vote/",
       data: "timestamp=" + timestamp + "&vote_type=" + type + "&box=" + box + "&video_id=" + {{ video.pk }}
     })
+    
+    {# TODO Handle none 200 HTTP response somehow #}
+    request.done(function(data) {
+      var insertionPoint = getVoteInsertionPoint(timestamp)
+      if(insertionPoint) {
+        $(data).insertAfter(insertionPoint);
+      } else {
+        $(data).appendTo('#votes');
+      }
+    });
+
+    request.fail(function(jqXHR, textStatus) {
+      {# TODO Implement error handling #}
+    });    
   }
 
   function vote(box) {

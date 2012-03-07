@@ -57,16 +57,22 @@ def vote(request):
       vote_type = vote_form.cleaned_data['vote_type']
       
       if vote_type == 'vote':
-        Vote.objects.create(video_id=video_id, 
+        vote = Vote.objects.create(video_id=video_id, 
                             time_period_start=int(timestamp), 
                             time_period_stop=int(timestamp) + 2, # TODO This should be change when buckets are implemented
                             box=box)
-        return HttpResponse('OK')
+        return render_to_response('vote.html',
+                                  {'vote': vote},
+                                  context_instance=RequestContext(request)
+                                 )
       elif vote_type == 'violation':
-        Vote.objects.create(video_id=video_id, 
+        vote = Vote.objects.create(video_id=video_id, 
                             time_period_start=int(timestamp), 
                             time_period_stop=int(timestamp) + 2, # TODO This should be change when buckets are implemented
                             violation=True)
-        return HttpResponse('OK')
+        return render_to_response('vote.html',
+                                  {'vote': vote},
+                                  context_instance=RequestContext(request)
+                                 )
       else:
         return HttpResponse('UNKNOWN VOTE TYPE: %s' % vote_type, status='400')
