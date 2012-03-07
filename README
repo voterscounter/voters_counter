@@ -18,13 +18,17 @@ git clone git://github.com/voterscounter/voters-counter.git
 
 3. [ОПЦИОНАЛЬНО] Получить актуальную версию исходного кода:
 cd voters-counter
-git fetch
+git pull
 
 4. [ОДНОКРАТНО] Установить Apache HTTP Server:
 [sudo] apt-get install apache2
 
+5. [ОДНОКРАТНО] Установить mod_wsgi:
+[sudo] apt-get install libapache2-mod-wsgi
+
 5. [ОДНОКРАТНО] Установить Django
-[sudo] apt-get install python-django
+[sudo] apt-get install python-setuptools
+[sudo] easy_install django
 
 6. Установить Django-приложение voters_counter:
 mkdir /var/opt/voters_counter
@@ -39,5 +43,11 @@ cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf.bak
 5. Обновить конфигурацию Apache HTTP Server
 cp apache2.conf /etc/apache2/apache2.conf
 
+6. Установить media-файлы:
+cp -R www/media /var/www
+chown -R www-data /var/www
+
+7. Перечитать конфигурацю Apache HTTP Server:
+apache2ctl -k graceful
 
 Редактировать settings.py DEBUG = False
