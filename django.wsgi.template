@@ -1,0 +1,12 @@
+import os
+import sys
+
+sys.path.append('{{ django_django_root }}')
+sys.path.append('{{ django_django_root }}/{{ django_local_content }}')
+
+os.environ['DJANGO_SETTINGS_MODULE'] = '{{ django_local_content|replace("/", ".") }}.settings'
+os.environ['PYTHON_EGG_CACHE'] = '/tmp'
+
+import django.core.handlers.wsgi
+application = django.core.handlers.wsgi.WSGIHandler()
+

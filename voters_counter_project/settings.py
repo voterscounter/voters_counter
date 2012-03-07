@@ -110,7 +110,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-STATIC_DOC_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'voters_counter_application/media')
+STATIC_DOC_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../www/media')
 
 project_directory = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIRS = (
