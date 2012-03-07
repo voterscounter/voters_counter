@@ -1,7 +1,19 @@
 {% extends "base.html" %}
 {% block body-block %}
 <div id="add-video-form" class="plate">
-  <div>Видео <a href="{{ video.url }}">{{ video.url }}</a></div>
+  <div>Видео <a href="{{ video.url }}">{{ video.url }}</a> 
+    <form>
+      <label>Ускорение проигрывания:</label>
+      <select id="acceleration_factor">
+        <option value="1">x1</option>
+        <option value="1.5">x1.5</option>
+        <option value="2">x2</option>
+        <option value="4">x4</option>
+        <option value="8">x8</option>
+        <option value="16">x16</option>        
+      </select>
+    </form>
+  </div>
   <div class="video">
     <div id="ytapiplayer">
       Требуется включить Flash player 8+ и JavaScript для просмотра этого видео.
@@ -27,18 +39,74 @@
     playerObject.addEventListener("onStateChange", "onytplayerStateChange");
   }
 
+  accelerationPeriod = 500; // in millis
+  accelerateVideoIntervalId = null;
+  
+  lastRealTimestamp = null;
+  lastPosition = null;
+
+  blockAccelerateVideoPlayback = false;
+  function accelerateVideoPlayback() {
+    if(blockAccelerateVideoPlayback) {
+      return;
+    }
+    blockAccelerateVideoPlayback = true;
+    var factor = parseFloat($('#acceleration_factor').val());
+    if(factor > 1) {
+      if(playerObject) {
+/*        if(lastRealTimestamp == null) {
+          lastRealTimestamp = (new Date().getTime()) / 1000;
+        }
+        if(lastPosition == null) {
+          lastPosition = playerObject.getCurrentTime();
+        }
+        var currentRealTimestamp = (new Date().getTime()) / 1000;
+        var currentPosition = playerObject.getCurrentTime();
+        if((currentRealTimestamp - lastRealTimestamp) * factor > (currentPosition - lastPosition)) {
+          var increment = (currentRealTimestamp - lastRealTimestamp) * factor;
+          var newPosition = lastPosition + increment;
+          if(newPosition < playerObject.getDuration()) {
+            playerObject.seekTo(newPosition, true);
+            if(playerObject.getCurrentTime() >= newPosition) {
+              lastRealTimestamp = (new Date().getTime()) / 1000;
+              lastPosition = playerObject.getCurrentTime();
+            }
+          } else {
+            playerObject.stopVideo();
+          }
+        }*/
+        newPosition = playerObject.getCurrentTime() + accelerationPeriod / 1000 * (factor - 1);
+        if(newPosition < playerObject.getDuration()) {
+          playerObject.seekTo(newPosition, true);
+        } else {
+          playerObject.stopVideo();
+        }
+      }
+    }
+    blockAccelerateVideoPlayback = false;
+  }
+
   highlightVoteIntervalId = null;
   
   function onytplayerStateChange(newState) {
     switch(newState) {
       case 1: // playing
-        highlightVoteIntervalId = setInterval(highlightVote, 500);
+        if(highlightVoteIntervalId == null) {
+          highlightVoteIntervalId = window.setInterval(highlightVote, 500);
+        }
+        if(accelerateVideoIntervalId == null) {
+          accelerateVideoIntervalId = window.setInterval(accelerateVideoPlayback, accelerationPeriod);
+        }
         break;
       case 0: // ended
       case 2: // paused
         if(highlightVoteIntervalId != null) {
-          clearInterval(highlightVoteIntervalId);
+          window.clearInterval(highlightVoteIntervalId);
           highlightVoteIntervalId = null;
+        }
+        if(window.accelerateVideoIntervalId != null) {
+          window.clearInterval(accelerateVideoIntervalId);
+          accelerateVideoIntervalId = null;
         }
         break;
     }
