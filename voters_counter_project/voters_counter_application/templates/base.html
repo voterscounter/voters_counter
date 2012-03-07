@@ -1,174 +1,172 @@
 <!DOCTYPE html>
 <html>
-<head profile="http://www.w3.org/2005/10/profile">
-<title>Voters Counter</title>
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<meta name="description" content="Voters Counter" />
-<!-- TODO:LOW Provide favicon 
-<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
--->
-<!-- TODO:MEDIUM Provide proper CSS
-<link rel="stylesheet" type="text/css" href="/..." />
--->
-<!-- TODO:MEDIUM Move embedded CSS to a linked file -->
-<style type="text/css">
-  html {
-    background: #000000;
-    background-image: url("/media/img/body-bgimg1.jpeg"), url("/media/img/body-bgimg2.jpeg");
-    background-repeat: repeat-x, repeat;
-  }
-  
-  .width-boundary {
-    width: 80%;
-    max-width: 620px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  #add-video-form {
-    padding: 1em;
-    margin: 1em;
-  }
-  
-  .plate {
-    border: 1px solid black;
-    border-radius: 1em;
-    -moz-border-radius: 1em;
-    -webkit-border-radius: 1em;
-    -khtml-border-radius: 1em;
-    background: #546f81;
-    background-image: url("/media/img/form-bgimg1.jpeg"), url("/media/img/form-bgimg2.jpeg");
-    background-repeat: repeat-x, repeat;
-    padding: 1em;
-  }
+  <head profile="http://www.w3.org/2005/10/profile">
+    <title>Счетчик избирателей (Voters Counter)</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta name="description" content="Счетчик избирателей (Voters Counter)" />
+    <!-- TODO:LOW Provide favicon 
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    -->
+    <!-- TODO:MEDIUM Provide proper CSS
+    <link rel="stylesheet" type="text/css" href="/..." />
+    -->
+    <!-- TODO:MEDIUM Move embedded CSS to a linked file -->
+    <style type="text/css">
+      html {
+        background: #000000;
+        background-image: url("/media/img/body-bgimg1.jpeg"), url("/media/img/body-bgimg2.jpeg");
+        background-repeat: repeat-x, repeat;
+      }
+      
+      .width-boundary {
+        width: 80%;
+        max-width: 620px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .plate {
+        border: 1px solid black;
+        border-radius: 1em;
+        -moz-border-radius: 1em;
+        -webkit-border-radius: 1em;
+        -khtml-border-radius: 1em;
+        background: #546f81;
+        background-image: url("/media/img/form-bgimg1.jpeg"), url("/media/img/form-bgimg2.jpeg");
+        background-repeat: repeat-x, repeat;
+        padding: 1em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+      }
 
-  #add-video-form label {
-    width: 16em; /* TODO: This is coupled with label text length, refactor to decouple it */
-    display: inline-block;
-    text-align: left;
-  }
-  
-  #add-video-form input[type="text"] {
-    width: 16em;
-    display: inline-block;
-  }
-  
-  #add-video-form form {
-    text-align: center;
-  }
-  
-  .video {
-    padding: 1em;
-  }
-  
-  .datetime {
-    color: #666666;
-  }
+      #add-video-form label {
+        width: 16em; /* TODO: This is coupled with label text length, refactor to decouple it */
+        display: inline-block;
+        text-align: left;
+      }
+      
+      #add-video-form input[type="text"] {
+        width: 16em;
+        display: inline-block;
+      }
+      
+      #add-video-form form {
+        text-align: center;
+      }
+      
+      .video {
+        padding: 1em;
+      }
+      
+      .datetime {
+        color: #666666;
+      }
 
-  .video-iframe {
-    display: inline-block;
-  }
-  
-  .video-controls {
-    display: inline-block;
-    max-width: 8em;
-  }
-  
-  .button {
-    border: 1px solid black;
-    border-radius: 0.5em;
-    -moz-border-radius: 0.5em;
-    -webkit-border-radius: 0.5em;
-    -khtml-border-radius: 0.5em;
-    background: #8080FF;
-    padding: 0.5em;
-    margin: 0.5em;
-    display: inline-block;
-    cursor: pointer;
-  }
-  
-  .button:hover {
-    background: #A0A0FF;
-  }
+      .video-iframe {
+        display: inline-block;
+      }
+      
+      .video-controls {
+        display: inline-block;
+        max-width: 8em;
+      }
+      
+      .button {
+        border: 1px solid black;
+        border-radius: 0.5em;
+        -moz-border-radius: 0.5em;
+        -webkit-border-radius: 0.5em;
+        -khtml-border-radius: 0.5em;
+        background: #8080FF;
+        padding: 0.5em;
+        margin: 0.5em;
+        display: inline-block;
+        cursor: pointer;
+      }
+      
+      .button:hover {
+        background: #A0A0FF;
+      }
 
-  .button.box1.highlighted,
-  .button.box2.highlighted {
-    background: green;
-  }
+      .button.box1.highlighted,
+      .button.box2.highlighted {
+        background: green;
+      }
 
-  .button.box1:active,
-  .button.box2:active {
-    background: green;
-  }
-  
-  .button.violation.highlighted {
-    background: red;
-  }
-  
-  .button.violation:active {
-    background: red;
-  }
-  
-  .votes {
-    background: #E0E0E0;
-    background: rgba(224, 224, 224, 0.8)
-  }
-  
-  .vote {
-    color: green;
-  }
-  
-  .vote[data-violation="True"] {
-    color: red;
-  }
-  
-  .period {
-    text-align: right;
-    min-width: 6em;
-    display: inline-block;
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-  
-  .description {
-    display: inline-block;
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-  
-  .highlighted {
-    background: #FFFFFF;
-    background: rgba(255, 255, 255, 0.8)
-  }
-  
-  .warning {
-    font-size: 1em;
-    font-weight: bold;
-    color: red;
-    text-align: center;
-    background-color: white;
-  }
-  
-  .notice {
-    font-size: 1em;
-    font-weight: bold;
-    text-align: center;
-  }  
-</style>
-<script type="text/javascript" src="/media/js/jquery.js"></script>
-<script type="text/javascript" src="/media/js/swfobject.js"></script>  
-</head>
-<body>
-<div class="width-boundary">
-<div class="warning">ДАННАЯ ВЕРСИЯ ЯВЛЯЕТСЯ ТЕСТОВОЙ и ПРЕДНАЗНАЧЕНА ДЛЯ ВЫЯВЛЕНИЯ НЕДОСТАТКОВ</div>
-<div class="warning">НЕ ИСПОЛЬЗУТЕ ЭТУ ВЕРСИЮ ДЛЯ РЕАЛЬНОЙ РАБОТЫ, т.к. есть риск потерять результаты кропотливого труда</div>
-<div class="warning">Все вопросы и предложения прошу оставлять <a href="http://voters-counter.livejournal.com/572.html" target="_blank">здесь</a>
-</div>
-<div class="plate">
-<a href="/">В начало</a>
-</div>
-{% block body-block %}{% endblock %}
-</div>
-</body>
+      .button.box1:active,
+      .button.box2:active {
+        background: green;
+      }
+      
+      .button.violation.highlighted {
+        background: red;
+      }
+      
+      .button.violation:active {
+        background: red;
+      }
+      
+      .votes {
+        background: #E0E0E0;
+        background: rgba(224, 224, 224, 0.8)
+      }
+      
+      .vote {
+        color: green;
+      }
+      
+      .vote[data-violation="True"] {
+        color: red;
+      }
+      
+      .period {
+        text-align: right;
+        min-width: 6em;
+        display: inline-block;
+        padding-left: 1em;
+        padding-right: 1em;
+      }
+      
+      .description {
+        display: inline-block;
+        padding-left: 1em;
+        padding-right: 1em;
+      }
+      
+      .highlighted {
+        background: #FFFFFF;
+        background: rgba(255, 255, 255, 0.8)
+      }
+      
+      .warning {
+        font-size: 1em;
+        font-weight: bold;
+        color: red;
+        text-align: center;
+        background-color: white;
+      }
+      
+      .notice {
+        font-size: 1em;
+        font-weight: bold;
+        text-align: center;
+      }  
+    </style>
+    <script type="text/javascript" src="/media/js/jquery.js"></script>
+    <script type="text/javascript" src="/media/js/swfobject.js"></script>  
+  </head>
+  <body>
+    <div class="width-boundary">
+      <div class="plate">
+        <div class="warning">ДАННАЯ ВЕРСИЯ ЯВЛЯЕТСЯ ТЕСТОВОЙ и ПРЕДНАЗНАЧЕНА ДЛЯ ВЫЯВЛЕНИЯ НЕДОСТАТКОВ</div>
+        <div class="warning">НЕ ИСПОЛЬЗУТЕ ЭТУ ВЕРСИЮ ДЛЯ РЕАЛЬНОЙ РАБОТЫ, т.к. есть риск потерять результаты кропотливого труда</div>
+        <div class="warning">Все вопросы и предложения прошу оставлять <a href="http://voters-counter.livejournal.com/572.html" target="_blank">здесь</a></div>
+      </div>        
+      <div class="plate">
+        <a href="{% url home %}">В начало</a> | <a href="{% url list_videos %}">Список видео</a> | <a href="{% url add_video %}">Добавить видео</a>
+      </div>
+      {% block body-block %}{% endblock %}
+    </div>
+  </body>
 </html>
