@@ -1,0 +1,3 @@
+<div class="vote" data-start="{{ vote.time_period_start }}" data-stop="{{ vote.time_period_stop }}" data-box="{{ vote.box }}" data-violation="{{ vote.violation }}">
+<div class="period">{{ vote.get_humanized_time_period_start }} - {{ vote.get_humanized_time_period_stop }}</div><div class="description">{% if vote.box %} Урна {{ vote.box }}{% endif %}{% if vote.violation %} НАРУШЕНИЕ{% endif %}</div>
+</div>

@@ -11,4 +11,5 @@ class VoteForm(forms.Form):
   vote_type = forms.CharField()
   box = forms.CharField()
   video_id = forms.IntegerField()
+  vote_type = forms.CharField()
   
