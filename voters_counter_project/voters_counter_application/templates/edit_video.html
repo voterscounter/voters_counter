@@ -7,9 +7,9 @@
       Требуется включить Flash player 8+ и JavaScript для просмотра этого видео.
     </div>
   </div>
-  <div class="button" onclick="vote('1');">+1 голос в урну 1</div>
-  <div class="button" onclick="vote('2');">+1 голос в урну 2</div>
-  <div class="button" onclick="violation();">+1 Нарушение</div>
+  <div class="button box1" onclick="vote('1');">+1 голос в урну 1</div>
+  <div class="button box2" onclick="vote('2');">+1 голос в урну 2</div>
+  <div class="button violation" onclick="violation();">+1 Нарушение</div>
   <div class="votes" id="votes">
     {% for vote in votes %}
       {% include "vote.html" with vote=vote %}
@@ -76,14 +76,25 @@
   
   function highlightVote() {
     if(playerObject) {
-      vote_ = getVoteByTimestamp(playerObject.getCurrentTime());
+      var vote_ = getVoteByTimestamp(playerObject.getCurrentTime());
       if(vote_) {
         if(!$(vote_).hasClass('highlighted')) {
           $('#votes .vote.highlighted').removeClass('highlighted');
           $(vote_).addClass('highlighted');
         }
+        var button = null;
+        if(vote_.getAttribute('data-violation') == 'True') {
+          button = $('.button.violation');
+        } else {
+          button = $('.button.box' + vote_.getAttribute('data-box'));
+        }
+        if(!button.hasClass('highlighted')) {
+          $('.button.highlighted').removeClass('highlighted');
+          button.addClass('highlighted');
+        }
       } else {
         $('#votes .vote.highlighted').removeClass('highlighted');
+        $('.button.highlighted').removeClass('highlighted');
       }
     } 
   }
