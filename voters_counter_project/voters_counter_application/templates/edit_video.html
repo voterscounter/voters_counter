@@ -68,11 +68,15 @@
     playbackAccelerationFactor = factor;
     $('.button.video-control').removeClass('pressed');
     $('.button.video-control#play_x' + factor).addClass('pressed');
+    playerObject.playVideo();
     if(factor == 1) {
-      playerObject.playVideo();
+      if(accelerateVideoIntervalId2 != null) {
+        clearInterval(accelerateVideoIntervalId2);
+        accelerateVideoIntervalId2 = null;
+        playbackAccelerationFactor = 1;
+      }
       return;
     }
-    playerObject.playVideo();
     if(accelerateVideoIntervalId2 == null) {
       accelerateVideoIntervalId2 = setInterval(accelerateVideoPlayback2, accelerationPeriod2);
     }
