@@ -1,29 +1,28 @@
 {% extends "base.html" %}
 {% block body-block %}
 <div id="add-video-form" class="plate">
-  <div>Видео <a href="{{ video.url }}">{{ video.url }}</a> 
-    <form>
-      <label>Ускорение проигрывания:</label>
-      <select id="acceleration_factor">
-        <option value="1">x1</option>
-        <option value="1.5">x1.5</option>
-        <option value="2">x2</option>
-        <option value="4">x4</option>
-        <option value="8">x8</option>
-        <option value="16">x16</option>        
-      </select>
-    </form>
-  </div>
+  <div>Видео <a href="{{ video.url }}">{{ video.url }}</a></div>
   <div class="video">
     <div id="ytapiplayer">
       Требуется включить Flash player 8+ и JavaScript для просмотра этого видео.
     </div>
   </div>
+  <div id="video-controls">
+    <div class="notice">Ускоренное проигрывание</div>
+    <div id="play_x1" class="button video-control" onclick="playVideo(1);" title="Проиграть">&gt;</div>
+    <div id="play_x2" class="button video-control" onclick="playVideo(2);" title="Проиграть с ускорением x2">&gt;&gt; x2</div>
+    <div id="play_x4" class="button video-control" onclick="playVideo(4);" title="Проиграть с ускорением x4">&gt;&gt; x4</div>
+    <div id="play_x8" class="button video-control" onclick="playVideo(8);" title="Проиграть с ускорением x8">&gt;&gt; x8</div>
+    <div id="play_x16" class="button video-control" onclick="playVideo(16);" title="Проиграть с ускорением x16">&gt;&gt; x16</div>
+    <div id="pause" class="button video-control" onclick="pauseVideo();" title="Пауза"> | | </div>
+  </div>
   <div class="notice">Запускайте видео на проигрывание и нажимайте соответствующие кнопки, когда появляются избиратели возле урн</div>
   <div style="height: 1em;"></div>
-  <div class="button box1" onclick="vote('1');">+1 голос в урну 1</div>
-  <div class="button box2" onclick="vote('2');">+1 голос в урну 2</div>
-  <div class="button violation" onclick="violation();">+1 Нарушение</div>
+  <div>
+    <div class="button box1" onclick="vote('1');">+1 голос в урну 1</div>
+    <div class="button box2" onclick="vote('2');">+1 голос в урну 2</div>
+    <div class="button violation" onclick="violation();">+1 Нарушение</div>
+  </div>
   <div class="votes" id="votes">
     {% for vote in votes %}
       {% include "vote.html" with vote=vote %}
@@ -39,51 +38,55 @@
     playerObject.addEventListener("onStateChange", "onytplayerStateChange");
   }
 
-  accelerationPeriod = 500; // in millis
-  accelerateVideoIntervalId = null;
-  
-  lastRealTimestamp = null;
-  lastPosition = null;
+  accelerationPeriod2 = 500; // in millis
+  accelerateVideoIntervalId2 = null;
+  playbackAccelerationFactor = 1;
 
   blockAccelerateVideoPlayback = false;
-  function accelerateVideoPlayback() {
+  function accelerateVideoPlayback2() {
     if(blockAccelerateVideoPlayback) {
       return;
     }
     blockAccelerateVideoPlayback = true;
-    var factor = parseFloat($('#acceleration_factor').val());
-    if(factor > 1) {
-      if(playerObject) {
-/*        if(lastRealTimestamp == null) {
-          lastRealTimestamp = (new Date().getTime()) / 1000;
-        }
-        if(lastPosition == null) {
-          lastPosition = playerObject.getCurrentTime();
-        }
-        var currentRealTimestamp = (new Date().getTime()) / 1000;
-        var currentPosition = playerObject.getCurrentTime();
-        if((currentRealTimestamp - lastRealTimestamp) * factor > (currentPosition - lastPosition)) {
-          var increment = (currentRealTimestamp - lastRealTimestamp) * factor;
-          var newPosition = lastPosition + increment;
-          if(newPosition < playerObject.getDuration()) {
-            playerObject.seekTo(newPosition, true);
-            if(playerObject.getCurrentTime() >= newPosition) {
-              lastRealTimestamp = (new Date().getTime()) / 1000;
-              lastPosition = playerObject.getCurrentTime();
-            }
-          } else {
-            playerObject.stopVideo();
-          }
-        }*/
-        newPosition = playerObject.getCurrentTime() + accelerationPeriod / 1000 * (factor - 1);
-        if(newPosition < playerObject.getDuration()) {
-          playerObject.seekTo(newPosition, true);
-        } else {
-          playerObject.stopVideo();
-        }
+    if(playerObject) {
+      newPosition = playerObject.getCurrentTime() + accelerationPeriod2 / 1000 * (playbackAccelerationFactor - 1);
+      if(newPosition < playerObject.getDuration()) {
+        playerObject.seekTo(newPosition, true);
+      } else {
+        playerObject.stopVideo();
+        clearInterval(accelerateVideoIntervalId2);
+        accelerateVideoIntervalId2 = null;
       }
     }
     blockAccelerateVideoPlayback = false;
+  }
+
+  function playVideo(factor) {
+    if(playerObject == null) {
+      return;
+    }
+    playbackAccelerationFactor = factor;
+    $('.button.video-control').removeClass('pressed');
+    $('.button.video-control#play_x' + factor).addClass('pressed');
+    if(factor == 1) {
+      playerObject.playVideo();
+      return;
+    }
+    playerObject.playVideo();
+    if(accelerateVideoIntervalId2 == null) {
+      accelerateVideoIntervalId2 = setInterval(accelerateVideoPlayback2, accelerationPeriod2);
+    }
+  }
+  
+  function pauseVideo() {
+    if(playerObject) {
+      playerObject.pauseVideo();
+    }
+    if(accelerateVideoIntervalId2 != null) {
+      clearInterval(accelerateVideoIntervalId2);
+      accelerateVideoIntervalId2 = null;
+      playbackAccelerationFactor = 1;
+    }
   }
 
   highlightVoteIntervalId = null;
@@ -91,22 +94,27 @@
   function onytplayerStateChange(newState) {
     switch(newState) {
       case 1: // playing
+        $('.button.video-control.pressed').removeClass('pressed');
+        $('.button.video-control#play_x' + playbackAccelerationFactor).addClass('pressed');
         if(highlightVoteIntervalId == null) {
           highlightVoteIntervalId = window.setInterval(highlightVote, 500);
         }
-        if(accelerateVideoIntervalId == null) {
-          accelerateVideoIntervalId = window.setInterval(accelerateVideoPlayback, accelerationPeriod);
-        }
         break;
-      case 0: // ended
       case 2: // paused
+        $('.button.video-control.pressed').removeClass('pressed');
+        $('.button.video-control#pause').addClass('pressed');
+      case 0: // ended
+        if(newState == 0) {
+          $('.button.video-control.pressed').removeClass('pressed');
+        }
         if(highlightVoteIntervalId != null) {
           window.clearInterval(highlightVoteIntervalId);
           highlightVoteIntervalId = null;
         }
-        if(window.accelerateVideoIntervalId != null) {
-          window.clearInterval(accelerateVideoIntervalId);
-          accelerateVideoIntervalId = null;
+        if(accelerateVideoIntervalId2 != null) {
+          clearInterval(accelerateVideoIntervalId2);
+          accelerateVideoIntervalId2 = null;
+          playbackAccelerationFactor = 1;
         }
         break;
     }
@@ -122,7 +130,7 @@
     votes = $('#votes .vote').toArray();
     {# TODO Here is a room for optimization, since the array is sorted #}
     for (var i = 0; i < votes.length; i++) {
-      vote_ = votes[i];
+      var vote_ = votes[i];
       if(parseInt(vote_.getAttribute('data-start')) <= timestamp && timestamp <= parseInt(vote_.getAttribute('data-stop'))) {
         return vote_;
       }
@@ -131,17 +139,15 @@
   }
 
   function getVoteInsertionPoint(timestamp) {
-    var prevVote = null;
     var votes = $('#votes .vote').toArray();
     {# TODO Here is a room for optimization, since the array is sorted #}
     for (var i = 0; i < votes.length; i++) {
       var vote_ = votes[i];
       if(timestamp < parseInt(vote_.getAttribute('data-start'))) {
-        break;
+        return vote_;
       }
-      prevVote = vote_
     }
-    return prevVote
+    return null;
   }
   
   function highlightVote() {
@@ -179,8 +185,8 @@
     {# TODO Handle none 200 HTTP response somehow #}
     request.done(function(data) {
       var insertionPoint = getVoteInsertionPoint(timestamp)
-      if(insertionPoint) {
-        $(data).insertAfter(insertionPoint);
+      if(insertionPoint != null) {
+        $(data).insertBefore(insertionPoint);
       } else {
         $(data).appendTo('#votes');
       }

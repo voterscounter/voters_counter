@@ -87,30 +87,24 @@
       }
       
       .button:hover {
-        background: #A0A0FF;
+        background-color: #A0A0FF;
       }
 
       .button.box1.highlighted,
-      .button.box2.highlighted {
-        background: green;
-      }
-
+      .button.box2.highlighted,
       .button.box1:active,
       .button.box2:active {
-        background: green;
+        background-color: green;
       }
-      
-      .button.violation.highlighted {
-        background: red;
-      }
-      
+
+      .button.violation.highlighted,
       .button.violation:active {
-        background: red;
+        background-color: red;
       }
       
       .votes {
-        background: #E0E0E0;
-        background: rgba(224, 224, 224, 0.8)
+        background-color: #E0E0E0;
+        background-color: rgba(224, 224, 224, 0.8)
       }
       
       .vote {
@@ -136,8 +130,8 @@
       }
       
       .highlighted {
-        background: #FFFFFF;
-        background: rgba(255, 255, 255, 0.8)
+        background-color: #FFFFFF;
+        background-color: rgba(255, 255, 255, 0.8)
       }
       
       .warning {
@@ -152,7 +146,24 @@
         font-size: 1em;
         font-weight: bold;
         text-align: center;
-      }  
+      }
+      
+      .video-control {
+        min-width: 2em;
+        text-align: center;
+      }
+      
+      .pressed {
+        background-color: #0000FF;
+      }
+      
+      .pressed:hover {
+        background-color: #0000FF;
+      }
+      
+      .video-control:active {
+        background-color: #0000FF;
+      }
     </style>
     <script type="text/javascript" src="/media/js/jquery.js"></script>
     <script type="text/javascript" src="/media/js/swfobject.js"></script>  
