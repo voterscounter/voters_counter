@@ -6,4 +6,4 @@ settings = my_settings
 
 [voters_counter_configuration]
 VOTERS_COUNTER_ROOT = /opt/voters_counter
-VOTERS_COUNTER_DB_ROOT = /var/opt
+VOTERS_COUNTER_DB_ROOT = /var/opt/voters_counter

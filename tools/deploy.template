@@ -14,7 +14,9 @@ sudo chgrp -R ${apache_configuration:APACHE_RUN_GROUP} wsgi
 
 echo "Creating database directory and set permissions..."
 sudo mkdir -p ${voters_counter_configuration:VOTERS_COUNTER_DB_ROOT}
-sudo chmod 755 ${voters_counter_configuration:VOTERS_COUNTER_DB_ROOT}
+sudo chown ${apache_configuration:APACHE_RUN_USER} ${voters_counter_configuration:VOTERS_COUNTER_DB_ROOT}
+sudo chgrp ${apache_configuration:APACHE_RUN_GROUP} ${voters_counter_configuration:VOTERS_COUNTER_DB_ROOT}
+sudo chmod 700 ${voters_counter_configuration:VOTERS_COUNTER_DB_ROOT}
 
 echo "Creating database..."
 sudo -u ${apache_configuration:APACHE_RUN_USER} ./bin/django syncdb

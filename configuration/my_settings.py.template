@@ -14,10 +14,10 @@ DATABASES = {
     }
 }
 
-STATIC_DOC_ROOT = ('${buildout:directory}/${django:project}/static/media',)
+STATIC_DOC_ROOT = ('${buildout:directory}/static/media',)
 
 TEMPLATE_DIRS = (
-    ${buildout:directory}/${django:project}/${voters_counter_configuration:APPLICATION_NAME}/templates
+    '${buildout:directory}/${django:project}/${voters_counter_configuration:APPLICATION_NAME}/templates'
 )
 
 SECRET_KEY = 'SET YOUR OWN SECRET KEY HERE'
