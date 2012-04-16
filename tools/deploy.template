@@ -1,0 +1,30 @@
+#!/bin/sh
+
+cd ${buildout:directory}
+
+echo "Installing Voters Counter django application..."
+sudo chown -R ${apache_configuration:APACHE_RUN_USER} ${django:project}
+sudo chgrp -R ${apache_configuration:APACHE_RUN_GROUP} ${django:project}
+sudo mkdir wsgi
+sudo cp bin/django.wsgi wsgi
+sudo chmod 500 wsgi
+sudo chmod 400 wsgi/django.wsgi
+sudo chown -R ${apache_configuration:APACHE_RUN_USER} wsgi
+sudo chgrp -R ${apache_configuration:APACHE_RUN_GROUP} wsgi
+
+echo "Creating database directory and set permissions..."
+sudo mkdir -p ${voters_counter_configuration:VOTERS_COUNTER_DB_ROOT}
+sudo chmod 755 ${voters_counter_configuration:VOTERS_COUNTER_DB_ROOT}
+
+echo "Creating database..."
+sudo -u ${apache_configuration:APACHE_RUN_USER} ./bin/django syncdb
+
+echo "Copying static media files..."
+sudo mkdir -p /var/www/media
+sudo cp -R static/media/* ${apache_configuration:DOCUMENT_ROOT}/media
+sudo chown -R ${apache_configuration:APACHE_RUN_USER} ${apache_configuration:DOCUMENT_ROOT}
+sudo chgrp -R ${apache_configuration:APACHE_RUN_GROUP} ${apache_configuration:DOCUMENT_ROOT}
+
+echo "Updating Apache HTTP Server configuration..."
+sudo cp configuration/apache2.conf /etc/apache2/apache2.conf
+sudo apache2ctl -k graceful

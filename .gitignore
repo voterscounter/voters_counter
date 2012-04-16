@@ -1,3 +1,5 @@
 *.pyc
 export_git_ssh.sh
 ssh_wrapper.sh
+.idea
+.installed.cfg
