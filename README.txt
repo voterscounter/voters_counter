@@ -37,7 +37,7 @@ cd /opt
 
 5. [ОДНОКРАТНО] Получить исходный код из репозитория github:
 5. [DONE ONCE] Get source from git repository at github:
-[sudo] git clone git://github.com/voterscounter/voters_counter.git
+sudo git clone git://github.com/voterscounter/voters_counter.git
 
 6. [ОПЦИОНАЛЬНО] Получить актуальную версию исходного кода (если предыдущие шаги проделывались ранее):
 6. [OPTIONAL] Get the latest sources (if previous steps are done before):
@@ -58,6 +58,12 @@ sudo vim my.buildout.cfg
 8. [ОПЦИОНАЛЬНО] Сделать резервную копию конфигурационного файла Apache HTTP Server:
 8. [OPTIONAL] Backup Apache HTTP Server configuration file:
 cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf.bak
+
+9. Поготовить конфигурацию Django-приложения Voters Counter
+sudo cp configuration/my_settings.py.template voters_counter_project/
+vim voters_counter_project/my_settings.py.template
+# Set SECRET_KEY to some unique secret value
+# Задайте SECRET_KEY уникальное секретное значение
 
 9. Установить Django-приложение Voters Counter:
 9. Install Voters Counter Django-application:
