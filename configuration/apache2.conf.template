@@ -119,8 +119,8 @@ LoadModule env_module /usr/lib/apache2/modules/mod_env.so
 SetEnv PYTHON_EGG_CACHE /tmp
 
 LoadModule wsgi_module /usr/lib/apache2/modules/mod_wsgi.so
-WSGIScriptAlias / ${voters_counter_configuration:VOTERS_COUNTER_ROOT}/wsgi/django.wsgi
-<Directory ${voters_counter_configuration:VOTERS_COUNTER_ROOT}/wsgi >
+WSGIScriptAlias / ${buildout:directory}/wsgi/django.wsgi
+<Directory ${buildout:directory}/wsgi >
   Order allow,deny
   Allow from all
 </Directory>

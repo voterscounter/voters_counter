@@ -3,3 +3,11 @@ export_git_ssh.sh
 ssh_wrapper.sh
 .idea
 .installed.cfg
+bin/
+eggs/
+develop-eggs/
+parts/
+voters_counter_project/my_settings.py
+voters_counter_project/my_settings.py.template
+voters_counter_project/settings_buildout.py
+configuration/apache2.conf

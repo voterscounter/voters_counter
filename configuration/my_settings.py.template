@@ -1,23 +1,6 @@
-from ${django:project}.settings import *
+from ${django:project}.settings_buildout import *
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '${voters_counter_configuration:VOTERS_COUNTER_DB_ROOT}/voters_counter.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-
-STATIC_DOC_ROOT = ('${buildout:directory}/static/media',)
-
-TEMPLATE_DIRS = (
-    '${buildout:directory}/${django:project}/${voters_counter_configuration:APPLICATION_NAME}/templates'
-)
 
 SECRET_KEY = 'SET YOUR OWN SECRET KEY HERE'
