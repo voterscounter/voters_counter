@@ -102,7 +102,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'voters_counter_project.urls'
 
-STATIC_DOC_ROOT = ('static/media',)
+STATIC_DOC_ROOT = 'static/media'
 
 TEMPLATE_DIRS = ('voters_counter_project/voters_counter_application/templates',)
 
